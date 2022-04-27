@@ -1,6 +1,7 @@
 package hyk.springframework.springtravellogrestapi.controller.api.v1;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,5 +51,15 @@ public class PasswordEncodingTest {
         System.out.println(sha256.encode(PASSWORD));
         System.out.println(sha256.encode(PASSWORD));
         System.out.println(sha256.encode("guest"));
+    }
+
+    @Test
+    void testBCrypt() {
+        // strength can be passed as argument parameter, default is 10.
+//        PasswordEncoder bcrypt = new BCryptPasswordEncoder(12);
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder();
+        System.out.println(bcrypt.encode(PASSWORD));
+        System.out.println(bcrypt.encode(PASSWORD));
+        System.out.println(bcrypt.encode("guest"));
     }
 }
