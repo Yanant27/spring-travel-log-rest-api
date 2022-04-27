@@ -1,20 +1,34 @@
 package hyk.springframework.springtravellogrestapi.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("hyk")
+                .password("{noop}yanant")
+//                .authorities("ADMIN")
+                .roles("ADMIN")
+                .and()
+                .withUser("guest")
+                .password("{noop}guest")
+//                .authorities("USER")
+                .roles("USER");
+//        auth.inMemoryAuthentication()
+//                .withUser("guest")
+//                .password("guest")
+//                .roles("GUEST")
+//                .authorities("GUEST");
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -23,11 +37,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     authorize.antMatchers(HttpMethod.GET, "/api/v1/travellogs").permitAll()
                     // permit all request with "GET" for specified mvc pattern
                     .mvcMatchers(HttpMethod.GET, "/api/v1/travellogs/{id}")
-                            .hasAnyAuthority("ADMIN", "USER")
+                            .hasAnyRole("ADMIN", "USER")
 //                            .hasAnyRole("ADMIN", "USER")
-                    .antMatchers(HttpMethod.POST).hasAuthority("ADMIN")
-                    .antMatchers(HttpMethod.DELETE).hasAuthority("ADMIN")
-                    .antMatchers(HttpMethod.PUT).hasAuthority("ADMIN");
+                    .antMatchers(HttpMethod.POST).hasRole("ADMIN")
+                    .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+                    .antMatchers(HttpMethod.PUT).hasRole("ADMIN");
                 })
                 .authorizeRequests()
                 .anyRequest()
@@ -38,22 +52,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable(); // csrf is default in spring
     }
 
-    @Bean
-    @Override
-    protected UserDetailsService userDetailsService() {
-        UserDetails admin = User.withDefaultPasswordEncoder()
-                .username("hyk")
-                .password("yanant")
-//                .roles("ADMIN")
-                .authorities("ADMIN")
-                .build();
-
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("guest")
-                .password("guest")
-//                .roles("USER")
-                .authorities("USER")
-                .build();
-        return new InMemoryUserDetailsManager(admin, user);
-    }
+//    @Bean
+//    @Override
+//    protected UserDetailsService userDetailsService() {
+//        UserDetails admin = User.withDefaultPasswordEncoder()
+//                .username("hyk")
+//                .password("yanant")
+////                .roles("ADMIN")
+//                .authorities("ADMIN")
+//                .build();
+//
+//        UserDetails user = User.withDefaultPasswordEncoder()
+//                .username("guest")
+//                .password("guest")
+////                .roles("USER")
+//                .authorities("USER")
+//                .build();
+//        return new InMemoryUserDetailsManager(admin, user);
+//    }
 }
