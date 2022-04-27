@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -20,10 +21,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        return NoOpPasswordEncoder.getInstance();
 //    }
 
+//    @Bean
+//    PasswordEncoder passwordEncoder() {
+//        return new LdapShaPasswordEncoder();
+//    }
+
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new LdapShaPasswordEncoder();
+        return new StandardPasswordEncoder();
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
@@ -33,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("ADMIN")
                 .and()
                 .withUser("guest")
-                .password("{SSHA}FN5YjTvJkr2/CKGyO96zXAPAyrlCFWFmOIzIKA==")
+                .password("ba788111341388ba1f140df78e8bd27b90496248111ffd463a6cd0a022e5ce2d4b5f0d4f29a44131")
 //                .authorities("USER")
                 .roles("USER");
 //        auth.inMemoryAuthentication()
