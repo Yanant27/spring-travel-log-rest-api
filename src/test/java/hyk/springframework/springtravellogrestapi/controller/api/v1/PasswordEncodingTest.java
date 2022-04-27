@@ -60,6 +60,6 @@ public class PasswordEncodingTest {
         PasswordEncoder bcrypt = new BCryptPasswordEncoder();
         System.out.println(bcrypt.encode(PASSWORD));
         System.out.println(bcrypt.encode(PASSWORD));
-        System.out.println(bcrypt.encode("guest"));
+        System.out.println(bcrypt.encode("editor"));
     }
 }

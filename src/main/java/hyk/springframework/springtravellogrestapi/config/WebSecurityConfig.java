@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
@@ -32,28 +33,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        return new StandardPasswordEncoder();
 //    }
 
+//    @Bean
+//    PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("hyk")
-                .password("yanant")
+                .password("{SSHA}sfkRBZS3oHIEdWoy1XU3CyAbg1W7ppwFm+O6Tg==")
 //                .authorities("ADMIN")
                 .roles("ADMIN")
                 .and()
                 .withUser("guest")
-                .password("$2a$10$dxEg3gSqrbKYrSbXVgiDhuf8cR7jsgMNd/iG0bqnM63OTimUVN78i")
+                .password("{sha256}f020cfc4a39ab63937befaf3e310d7f419f49c5861e8c2fded1244acc664a5670211a7f80d71c376")
 //                .authorities("USER")
                 .roles("USER");
-//        auth.inMemoryAuthentication()
-//                .withUser("guest")
-//                .password("guest")
-//                .roles("GUEST")
-//                .authorities("GUEST");
+        auth.inMemoryAuthentication()
+                .withUser("editor")
+                .password("{bcrypt}$2a$10$TG/J6ztXz/lBckCpIdchHuJLDqAkg3apfXc2Jqk91YZzLfr.twQHO")
+                .roles("EDITOR");
+//                .authorities("EDITOR");
     }
 
     @Override
@@ -64,11 +70,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     authorize.antMatchers(HttpMethod.GET, "/api/v1/travellogs").permitAll()
                     // permit all request with "GET" for specified mvc pattern
                     .mvcMatchers(HttpMethod.GET, "/api/v1/travellogs/{id}")
-                            .hasAnyRole("ADMIN", "USER")
+                            .hasAnyRole("ADMIN", "USER", "EDITOR")
 //                            .hasAnyRole("ADMIN", "USER")
                     .antMatchers(HttpMethod.POST).hasRole("ADMIN")
                     .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-                    .antMatchers(HttpMethod.PUT).hasRole("ADMIN");
+                    .antMatchers(HttpMethod.PUT).hasAnyRole("ADMIN", "EDITOR");
                 })
                 .authorizeRequests()
                 .anyRequest()
@@ -76,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .and()
-                .csrf().disable(); // csrf is default in spring
+                .csrf().disable(); // csrf is enabled by default in spring
     }
 
 //    @Bean
