@@ -1,9 +1,12 @@
 package hyk.springframework.springtravellogrestapi.controller.api.v1;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.DigestUtils;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PasswordEncodingTest {
 
@@ -28,5 +31,15 @@ public class PasswordEncodingTest {
         System.out.println(encoder.encode(PASSWORD));
     }
 
+    @Test
+    void testLdap() {
+        PasswordEncoder ldap = new LdapShaPasswordEncoder();
+        // LDAP algorithm use random salt value and produce different hash value every time
+        System.out.println(ldap.encode(PASSWORD));
+        System.out.println(ldap.encode(PASSWORD));
+        System.out.println(ldap.encode("guest"));
 
+        String encodedPwd = ldap.encode(PASSWORD);
+        assertTrue(ldap.matches(PASSWORD, encodedPwd));
+    }
 }
