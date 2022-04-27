@@ -10,10 +10,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 /**
@@ -44,7 +42,7 @@ public class TravelLogController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TravelLogDto> findTravelLogById(@PathVariable Long id) {
-        log.info("***** Get travel log with requested ID *****");
+        log.info("***** Get travel log with requested ID=" + id + " *****");
         TravelLog travelLog = travelLogService.getTravelLogById(id);
         if (travelLog == null) {
             throw  new TravelLogNotFoundException("No Travel Log Found for ID=" + id);
@@ -66,12 +64,12 @@ public class TravelLogController {
 
     @PutMapping("/{id}")
     public ResponseEntity<TravelLogDto> updateTravelLog(@PathVariable Long id, @RequestBody TravelLogDto travelLogDto) {
-        log.info("***** Update existing  travel log with requested ID *****");
+        log.info("***** Update existing  travel log with requested ID=" + id + " *****");
         TravelLog travelLog = travelLogService.getTravelLogById(id);
         if (travelLog == null) {
             throw  new TravelLogNotFoundException("Update Failed ! No Travel Log for ID=" + id);
         }
-
+        // Set updated data from request body
         travelLog.setTravellerName(travelLogDto.getTravellerName());
         travelLog.setPhoneNumber(travelLogDto.getPhoneNumber());
         travelLog.setOrigin(travelLogDto.getOrigin());
@@ -87,7 +85,7 @@ public class TravelLogController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTravelLogById(@PathVariable Long id) {
-        log.info("***** Delete travel log with requested ID *****");
+        log.info("***** Delete travel log with requested ID=" + id + " *****");
         TravelLog travelLog = travelLogService.getTravelLogById(id);
         if (travelLog == null) {
             throw  new TravelLogNotFoundException("Deletion Failed ! No Travel Log for ID=" + id);

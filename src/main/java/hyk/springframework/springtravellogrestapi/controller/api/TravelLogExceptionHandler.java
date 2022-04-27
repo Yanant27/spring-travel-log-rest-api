@@ -13,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author Htoo Yanant Khin
@@ -25,21 +26,24 @@ public class TravelLogExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<Object> handleAllException(Exception exception, WebRequest request) {
         log.error("General Exception: ", exception);
-        ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setTimestamp(LocalDateTime.now());
-        errorResponse.setErrorMessage(exception.getLocalizedMessage());
-        errorResponse.setRequestedUrl(((ServletWebRequest)request).getRequest().getRequestURL().toString());
-        return new ResponseEntity<Object>(errorResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Object>(createErrorResponse(exception, request),
+                new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     // Handle only one specific exception
     @ExceptionHandler(TravelLogNotFoundException.class)
     public ResponseEntity<Object> handleNotFoundException(Exception exception, WebRequest request){
         log.error("Travel Log Not Found Exception: ", exception);
+        return new ResponseEntity<Object>(createErrorResponse(exception, request),
+                new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+    private ErrorResponse createErrorResponse(Exception exception, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setTimestamp(LocalDateTime.now());
+        errorResponse.setTimestamp(LocalDateTime.parse(LocalDateTime.now()
+                .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
         errorResponse.setErrorMessage(exception.getLocalizedMessage());
         errorResponse.setRequestedUrl(((ServletWebRequest)request).getRequest().getRequestURL().toString());
-        return new ResponseEntity<Object>(errorResponse, new HttpHeaders(), HttpStatus.NOT_FOUND);
+        return errorResponse;
     }
 }
