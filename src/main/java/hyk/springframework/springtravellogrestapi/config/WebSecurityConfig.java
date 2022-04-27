@@ -1,25 +1,35 @@
 package hyk.springframework.springtravellogrestapi.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        // Use this method instead of PasswordEncoder id {noop} at configure() method
+        return NoOpPasswordEncoder.getInstance();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("hyk")
-                .password("{noop}yanant")
+                .password("yanant")
 //                .authorities("ADMIN")
                 .roles("ADMIN")
                 .and()
                 .withUser("guest")
-                .password("{noop}guest")
+                .password("guest")
 //                .authorities("USER")
                 .roles("USER");
 //        auth.inMemoryAuthentication()

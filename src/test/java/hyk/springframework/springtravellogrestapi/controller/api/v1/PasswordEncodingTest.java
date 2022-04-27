@@ -1,6 +1,8 @@
 package hyk.springframework.springtravellogrestapi.controller.api.v1;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.DigestUtils;
 
 public class PasswordEncodingTest {
@@ -18,4 +20,13 @@ public class PasswordEncodingTest {
         // Without salt value, hash vale will not be changed for the same password.
         System.out.println(DigestUtils.md5DigestAsHex(salt.getBytes()));
     }
+
+    @Test
+    void testNoOp() {
+        PasswordEncoder encoder = NoOpPasswordEncoder.getInstance();
+        // Not recommend to use in real-world app
+        System.out.println(encoder.encode(PASSWORD));
+    }
+
+
 }
