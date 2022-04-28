@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -70,8 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.addFilterBefore(restHeaderAuthFilter(authenticationManager()),
-//                UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(restHeaderAuthFilter(authenticationManager()),
+                UsernamePasswordAuthenticationFilter.class);
 
         http
                 .authorizeRequests(authorize -> {
@@ -93,6 +94,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable(); // csrf is enabled by default in spring
     }
+
+
 
 //    @Bean
 //    @Override
