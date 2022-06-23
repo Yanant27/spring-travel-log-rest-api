@@ -1,8 +1,12 @@
 package hyk.springframework.springtravellogrestapi.api.v1.model;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class TravelLogDto {
@@ -19,9 +23,7 @@ public class TravelLogDto {
 
     private LocalDate arrivalDate;
 
-    private String purpose;
+    private LocalDateTime createdTimestamp;
 
-    private String transportationType;
-
-    private String stayAt;
+    private LocalDateTime lastModifiedTimestamp;
 }

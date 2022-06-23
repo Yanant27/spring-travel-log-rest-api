@@ -9,7 +9,10 @@ import java.util.List;
  */
 public interface TravelLogService {
     List<TravelLog>  getAllTravelLogs();
+
     TravelLog getTravelLogById(Long id);
+
     TravelLog saveTravelLog(TravelLog travelLog);
+
     void deleteTravelLogById(Long id);
 }

@@ -74,11 +74,11 @@ public class TravelLogController {
         travelLog.setPhoneNumber(travelLogDto.getPhoneNumber());
         travelLog.setOrigin(travelLogDto.getOrigin());
         travelLog.setDestination(travelLogDto.getDestination());
-        travelLog.setPurpose(travelLogDto.getPurpose());
+//        travelLog.setPurpose(travelLogDto.getPurpose());
         travelLog.setDepartureDate(travelLogDto.getDepartureDate());
         travelLog.setArrivalDate(travelLogDto.getArrivalDate());
-        travelLog.setTransportationType(travelLogDto.getTransportationType());
-        travelLog.setStayAt(travelLogDto.getStayAt());
+//        travelLog.setTransportationType(travelLogDto.getTransportationType());
+//        travelLog.setStayAt(travelLogDto.getStayAt());
         travelLogService.saveTravelLog(travelLog);
         return new ResponseEntity<>(travelLogMapper.travelLogToTravelLogDto(travelLog), HttpStatus.OK);
     }

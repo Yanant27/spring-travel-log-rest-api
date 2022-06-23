@@ -32,15 +32,10 @@ public class TravelLog extends BaseEntity {
 
     private LocalDate arrivalDate;
 
-    private String purpose;
-
-    private String transportationType;
-
-    private String stayAt;
-
     @CreationTimestamp
-    private LocalDateTime logEntryDate;
+    @Column(updatable = false)
+    private LocalDateTime createdTimestamp;
 
     @UpdateTimestamp
-    private LocalDateTime logUpdateDateTime;
+    private LocalDateTime lastModifiedTimestamp;
 }

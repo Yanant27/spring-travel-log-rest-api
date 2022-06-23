@@ -31,9 +31,6 @@ public class Bootstrap implements CommandLineRunner {
                 .destination("Yangon")
                 .departureDate(LocalDate.of(2022,4,6))
                 .arrivalDate(LocalDate.of(2022,4,8))
-                .purpose("Private trip with family")
-                .transportationType("car")
-                .stayAt("Excel River View Hotel")
                 .build();
 
         TravelLog log2 = TravelLog.builder()
@@ -43,9 +40,6 @@ public class Bootstrap implements CommandLineRunner {
                 .destination("Yangon")
                 .departureDate(LocalDate.of(2022,4,6))
                 .arrivalDate(LocalDate.of(2022,4,8))
-                .purpose("Private trip with family")
-                .transportationType("car")
-                .stayAt("Excel River View Hotel")
                 .build();
 
         TravelLog log3 = TravelLog.builder()
@@ -55,9 +49,6 @@ public class Bootstrap implements CommandLineRunner {
                 .destination("Yangon")
                 .departureDate(LocalDate.of(2022,4,6))
                 .arrivalDate(LocalDate.of(2022,4,8))
-                .purpose("Private trip with family")
-                .transportationType("car")
-                .stayAt("Excel River View Hotel")
                 .build();
 
         TravelLog log4 = TravelLog.builder()
@@ -67,9 +58,6 @@ public class Bootstrap implements CommandLineRunner {
                 .destination("Pyin Oo Lwin")
                 .departureDate(LocalDate.of(2022,4,17))
                 .arrivalDate(LocalDate.of(2022,4,19))
-                .purpose("Private trip with neighbours")
-                .transportationType("car")
-                .stayAt("Orchid Hotel")
                 .build();
 
         TravelLog log5 = TravelLog.builder()
@@ -79,9 +67,6 @@ public class Bootstrap implements CommandLineRunner {
                 .destination("Pyin Oo Lwin")
                 .departureDate(LocalDate.of(2022,4,17))
                 .arrivalDate(LocalDate.of(2022,4,19))
-                .purpose("Private trip with neighbours")
-                .transportationType("car")
-                .stayAt("Orchid Hotel")
                 .build();
 
         travelLogRepository.save(log1);
